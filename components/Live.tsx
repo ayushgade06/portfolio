@@ -148,7 +148,7 @@ export function RunSummary() {
   if (!sum)
     return (
       <div>
-        <p className="aside">Email is the fastest way to reach me.</p>
+        <p className="aside">The box lands in my inbox.</p>
         <p className="lead">GitHub and LinkedIn work too.</p>
       </div>
     );
@@ -182,8 +182,8 @@ export function RunFacts() {
       </li>
       <li>
         <div>
-          <span>Sent anywhere</span>
-          <span>Nothing</span>
+          <span>Tracking</span>
+          <span>None</span>
         </div>
       </li>
       <li>

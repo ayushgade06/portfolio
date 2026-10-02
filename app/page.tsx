@@ -1,4 +1,5 @@
 import Cursor from "@/components/Cursor";
+import Gomu from "@/components/Gomu";
 import Motion from "@/components/Motion";
 import Nav from "@/components/Nav";
 import { About, Chain, Contact, Experience, Hero, Statement, Upstream, Work } from "@/components/Sections";
@@ -21,6 +22,7 @@ export default function Page() {
       </main>
       <Trace />
       <Motion />
+      <Gomu />
       <Cursor />
     </>
   );

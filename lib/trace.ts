@@ -1,4 +1,4 @@
-// The run log: what the visitor did, kept in memory for this tab only. Nothing is stored or sent.
+// The run log: what the visitor did, kept in memory for this tab only. The log is never stored or sent.
 
 export type Ev = { t: number; type: string; label: string };
 

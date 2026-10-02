@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./gomu.css";
 
 @theme {
   --font-sans: var(--font-mona), ui-sans-serif, system-ui, sans-serif;
@@ -675,6 +676,8 @@ dialog.menu::backdrop {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  /* the corner belongs to the companion */
+  padding-right: clamp(60px, 7vw, 104px);
 }
 .status {
   display: inline-flex;
@@ -775,7 +778,7 @@ dialog.menu::backdrop {
   transform: rotate(225deg) scale(1.4);
 }
 
-/* ───────── experience: five rules ───────── */
+/* ───────── experience: the rules ───────── */
 .rule {
   display: grid;
   gap: 18px;
@@ -803,9 +806,9 @@ dialog.menu::backdrop {
     padding: 30px 0 34px;
   }
 }
-.stackline {
-  border-top: 1px solid var(--line);
-  padding-top: 16px;
+/* the heading above the rules already draws the line */
+.index-hd + .rows > .rule:first-child {
+  border-top: 0;
 }
 
 /* ───────── diagrams: nodes and edges ───────── */
@@ -1164,54 +1167,6 @@ dialog.menu::backdrop {
   display: grid;
   gap: 40px;
 }
-.lc {
-  border: 1px solid var(--line);
-  padding: 20px 22px 22px;
-}
-.lc-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px 24px;
-  align-items: end;
-  margin: 18px 0 22px;
-}
-.lc-row .numeral {
-  display: block;
-  font-size: clamp(56px, 7vw, 104px);
-  margin-bottom: 6px;
-}
-.dial {
-  width: clamp(84px, 9vw, 120px);
-}
-.dial .arc {
-  stroke-width: 3;
-}
-.dial .needle {
-  stroke-width: 2;
-}
-.bars-lc li {
-  display: grid;
-  grid-template-columns: 5.5em 1fr 3em;
-  gap: 12px;
-  align-items: center;
-  padding: 5px 0;
-}
-.bars-lc i {
-  display: block;
-  height: 8px;
-  background: var(--fg);
-  transform-origin: left;
-  transform: scaleX(var(--v));
-}
-.bars-lc span:last-child {
-  text-align: right;
-  color: var(--fg);
-}
-@media (min-width: 600px) {
-  .lc-row {
-    grid-template-columns: 1fr 1fr auto;
-  }
-}
 .paper {
   border-top: 1px solid var(--line);
 }
@@ -1298,9 +1253,14 @@ html.flood .contact .label {
 }
 .sum {
   display: grid;
-  gap: 32px;
+  gap: 40px;
   border-top: 1px solid var(--line);
-  padding-top: 20px;
+  padding-top: 24px;
+}
+.side {
+  display: grid;
+  gap: 28px;
+  align-content: start;
 }
 .sum .aside {
   margin-bottom: 10px;
@@ -1335,13 +1295,290 @@ html.flood .contact .label {
   gap: 8px 24px;
   margin-top: auto;
   padding-top: 46px;
+  /* the page ends with the companion standing in this corner */
+  padding-right: clamp(60px, 7vw, 104px);
 }
 @media (min-width: 960px) {
   .sum {
-    grid-template-columns: 5fr 3.5fr 3.5fr;
-    gap: 40px;
+    grid-template-columns: 7fr 5fr;
+    gap: 56px;
   }
 }
+
+/* ───────── contact: the message box, a dark panel on the flood ───────── */
+.mb {
+  position: relative;
+  display: grid;
+  gap: 22px;
+  padding: 18px 18px 20px;
+  background: var(--bg);
+  color: var(--fg);
+  box-shadow: 8px 8px 0 rgba(12, 12, 12, 0.3);
+}
+.mb-frame {
+  position: absolute;
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  pointer-events: none;
+}
+.mb-frame rect {
+  fill: none;
+  stroke: var(--fg4);
+  stroke-width: 1px;
+}
+.mb > :not(.mb-frame) {
+  position: relative;
+}
+.mb-hd {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 6px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.mb-hd i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: var(--acc);
+}
+.mb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 6px;
+}
+.mb-chips legend {
+  margin-bottom: 10px;
+}
+.chip {
+  cursor: pointer;
+}
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.chip span {
+  display: block;
+  border: 1px solid var(--fg4);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+.chip:hover span {
+  border-color: var(--fg);
+}
+.chip input:checked + span {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #0c0c0c;
+}
+.chip input:focus-visible + span {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+.mb-two {
+  display: grid;
+  gap: 22px;
+}
+.fld {
+  position: relative;
+  display: block;
+  padding: 0 6px;
+}
+.fld input,
+.fld textarea {
+  display: block;
+  width: 100%;
+  padding: 8px 0 12px;
+  border: 0;
+  border-bottom: 1px solid var(--fg4);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.3;
+  outline: none;
+}
+.fld textarea {
+  field-sizing: content;
+  min-height: 5.4em;
+  max-height: 40vh;
+  resize: none;
+}
+.fld ::placeholder {
+  color: var(--fg4);
+  opacity: 1;
+}
+/* the line under a field fills with the accent while you are in it */
+.fld::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 0;
+  height: 2px;
+  background: var(--acc);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease);
+}
+.fld:focus-within::after {
+  transform: none;
+}
+.fld:focus-within .mono {
+  color: var(--acc-text);
+}
+.mb-honey {
+  display: none;
+}
+.mb-ft {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 0 6px;
+}
+/* a keyboard hint is no use on a touch screen */
+@media (pointer: coarse) {
+  .mb .keys {
+    display: none;
+  }
+}
+.mb-send {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 8px 8px 26px;
+  border-radius: 999px;
+  background: var(--acc);
+  color: #0c0c0c;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 0.2s var(--ease);
+}
+.mb-send i {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #0c0c0c;
+  color: var(--acc);
+  font-style: normal;
+  font-size: 18px;
+  transition: transform 0.35s var(--ease);
+}
+.mb-send:hover i,
+.mb-send:focus-visible i {
+  transform: rotate(45deg) scale(1.1);
+}
+.mb-send:active {
+  transform: scale(0.97);
+}
+.mb-send:disabled {
+  opacity: 0.6;
+}
+.mb-note {
+  padding: 0 6px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+.mb-note a {
+  color: var(--acc-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.mb-done {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding: 10px 6px 14px;
+}
+.mb-done .display {
+  padding: 0;
+  font-size: clamp(72px, 12vw, 170px);
+  color: var(--acc);
+}
+@media (min-width: 600px) {
+  .mb {
+    padding: 22px 26px 26px;
+    gap: 26px;
+  }
+  .mb-two {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ───────── about: blocks that keep building the next word ───────── */
+.build {
+  border: 1px solid var(--line);
+  padding: 16px 18px 14px;
+}
+.bd {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 14px;
+  overflow: visible;
+}
+.bd rect {
+  fill: var(--fg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.bd rect.a {
+  fill: var(--acc);
+}
+.bd-floor {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 0.05;
+}
+.bd-steps {
+  display: flex;
+  gap: 8px 22px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.bd-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease-out;
+}
+.bd-steps li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  outline: 1px solid var(--fg3);
+  outline-offset: -1px;
+}
+.bd-steps li.on {
+  color: var(--fg);
+}
+.bd-steps li.on::before {
+  background: var(--acc);
+  outline-color: var(--acc);
+}
+
 
 /* ───────── pointer: a small character with a blob behind it (fine pointers only) ───────── */
 html.cur,

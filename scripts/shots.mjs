@@ -63,7 +63,7 @@ for (const [name, vp] of Object.entries(viewports)) {
         case "work": return top("#work", -nav);
         case "sheet2": return top("[data-sheet]:nth-child(2)", -nav - 60);
         case "sheet4": return top("[data-sheet]:nth-child(4)", -nav - 150);
-        case "index": return top(".index-hd", -nav - 20);
+        case "index": return top("#work .index-hd", -nav - 20);
         case "upstream": return top("#upstream", -nav);
         case "about": return top("#about", -nav);
         case "contact": return top("#contact", -innerHeight * 0.55);

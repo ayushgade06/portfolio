@@ -1,7 +1,9 @@
-import { about, chain, diff, experience, hero, indexRows, links, projects, rules, statement, upstream } from "@/content/site";
+import { about, chain, diff, experience, hero, indexRows, links, loop, projects, rules, statement, upstream } from "@/content/site";
+import Builder from "./Builder";
 import { Plate, RuleDiagram } from "./Diagrams";
 import Field from "./Field";
 import { CopyEmail, Meter, PuneTime, RunFacts, RunSummary } from "./Live";
+import MessageBox from "./MessageBox";
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
 const day = (iso: string) => new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
@@ -119,10 +121,10 @@ export function Statement() {
   );
 }
 
-// design.md's marquee, re-purposed: the workflow as nodes on one edge, travelling with the scroll.
+// design.md's marquee, re-purposed: what the work is made of, as nodes on one edge, travelling with the scroll.
 export function Chain() {
   return (
-    <section className="sec chain" data-theme="dark" aria-label="The workflow, end to end" style={{ paddingInline: 0 }}>
+    <section className="sec chain" data-theme="dark" aria-label="What the work is made of" style={{ paddingInline: 0 }}>
       <div className="chain-track" data-chain>
         {chain.map((w, i) => (
           <span key={w} style={{ display: "contents" }}>
@@ -149,10 +151,14 @@ export function Experience() {
             {experience.aside}
           </p>
           <p className="body" data-reveal>
-            {experience.intro[0]}
-            <b>{experience.intro[1]}</b>
+            {experience.intro}
           </p>
         </div>
+      </div>
+      <Marquee items={experience.stack} className="marquee-sm" />
+      <div className="index-hd">
+        <h3 className="title">How I build</h3>
+        <p className="mono">Three rules, drawn</p>
       </div>
       <ol className="rows">
         {rules.map((r, i) => (
@@ -163,13 +169,12 @@ export function Experience() {
             <div>
               <h3 className="title">{r.title}</h3>
               <p className="body">{r.body}</p>
-              <p className="mono src private">{r.tag}</p>
+              <p className="mono src">{r.tag}</p>
             </div>
             <RuleDiagram i={i} alt={r.alt} />
           </li>
         ))}
       </ol>
-      <Marquee items={experience.stack} className="marquee-sm" />
     </section>
   );
 }
@@ -327,13 +332,6 @@ export function Upstream() {
 
 /* ───────── 04 ABOUT ───────── */
 export function About() {
-  const lc = about.leetcode;
-  const total = lc.easy + lc.medium + lc.hard;
-  const bars: [string, number][] = [
-    ["Easy", lc.easy],
-    ["Medium", lc.medium],
-    ["Hard", lc.hard],
-  ];
   return (
     <section id="about" className="sec about" data-theme="light" data-state="ABOUT">
       <Label left="04 — About" right="Pune, India · UTC+5:30" />
@@ -346,45 +344,15 @@ export function About() {
         </p>
       </div>
       <div className="about-grid">
-        {/* verified numbers, drawn instead of listed */}
-        <figure className="lc" data-item="LeetCode">
-          <a className="mono src" href={links.leetcode} {...ext} data-cursor="src" data-src="LeetCode">
-            LeetCode ↗
-          </a>
-          <div className="lc-row">
-            <div>
-              <b className="numeral">
-                <span data-roll>{total}</span>
-              </b>
-              <span className="mono">Solved · C++</span>
-            </div>
-            <div>
-              <b className="numeral">
-                <span data-roll>{lc.rating}</span>
-              </b>
-              <span className="mono">Contest rating · top {lc.top}%</span>
-            </div>
-            <svg className="dg dial" viewBox="0 0 120 120" role="img" aria-label={`Top ${lc.top} percent of rated contestants`} data-dial={100 - lc.top}>
-              <circle className="s" cx="60" cy="60" r="46" />
-              <circle className="sg arc" cx="60" cy="60" r="46" transform="rotate(-90 60 60)" />
-              <line className="sg needle" x1="60" y1="60" x2="60" y2="22" />
-              <rect className="fg" x="56" y="56" width="8" height="8" />
-            </svg>
-          </div>
-          <ul className="bars-lc">
-            {bars.map(([k, v]) => (
-              <li key={k}>
-                <span className="mono">{k}</span>
-                <i style={css({ "--v": v / Math.max(lc.easy, lc.medium) })} data-bar />
-                <span className="mono">{v}</span>
-              </li>
-            ))}
-          </ul>
+        {/* the bio, as blocks that keep building the next word */}
+        <figure className="build" data-item="The loop">
+          <figcaption className="mono">Fig. — the loop</figcaption>
+          <Builder words={loop} />
         </figure>
         <ul className="paper rows">
           {about.paper.map((r, i) => (
             <li key={r.k} data-come={i % 2 ? "right" : "left"}>
-              <span className={`mono src${r.public ? "" : " private"}`}>{r.k}</span>
+              <span className="mono src">{r.k}</span>
               <span className="v">{r.v}</span>
             </li>
           ))}
@@ -413,17 +381,19 @@ export function Contact() {
         hello
       </h2>
       <div className="sum">
-        <RunSummary />
-        <ul className="kv">
-          <li>
-            <CopyEmail />
-          </li>
-          {row("GitHub", "ayushgade06", links.github)}
-          {row("LinkedIn", "ayushgade", links.linkedin)}
-          {row("LeetCode", "ayush_gade", links.leetcode)}
-          {row("Résumé", "PDF", links.resume)}
-        </ul>
-        <RunFacts />
+        <MessageBox />
+        <div className="side">
+          <RunSummary />
+          <ul className="kv">
+            <li>
+              <CopyEmail />
+            </li>
+            {row("GitHub", "ayushgade06", links.github)}
+            {row("LinkedIn", "ayushgade", links.linkedin)}
+            {row("Résumé", "PDF", links.resume)}
+          </ul>
+          <RunFacts />
+        </div>
       </div>
       <footer className="foot mono">
         <span>© 2026 Ayush Gade</span>

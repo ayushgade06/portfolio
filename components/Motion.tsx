@@ -388,18 +388,6 @@ export default function Motion() {
             .to(tokens, { opacity: 1, duration: 0.2 }, ">-0.1");
         });
 
-        /* ── the rating dial sweeps to its value; the bars grow to theirs ── */
-        all<SVGSVGElement>("[data-dial]").forEach((svg) => {
-          const pct = Number(svg.dataset.dial);
-          gsap
-            .timeline({ scrollTrigger: { trigger: svg, start: "top 88%", once: true }, defaults: { duration: 1.4, ease: "expo.out" } })
-            .fromTo(svg.querySelector(".arc"), { drawSVG: "0%" }, { drawSVG: `${pct}%` }, 0)
-            .fromTo(svg.querySelector(".needle"), { rotation: 0, svgOrigin: "60 60" }, { rotation: pct * 3.6, svgOrigin: "60 60" }, 0);
-        });
-        all("[data-bar]").forEach((el, k) => {
-          gsap.from(el, { scaleX: 0, duration: 1.1, delay: k * 0.08, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 94%", once: true } });
-        });
-
         /* ── marquees keep moving; their squares keep rolling ── */
         all("[data-marquee]").forEach((el, k) => {
           const track = el.querySelector<HTMLElement>(".marquee-track")!;

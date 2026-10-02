@@ -5,7 +5,7 @@
 const ruleDiagrams = [
   // 01 — the model is an untrusted advisor
   <>
-    <text x="6" y="24">Reply in</text>
+    <text x="6" y="24">Input</text>
     <path className="s d" d="M10 62 H450" />
     <rect className="solid n" x="6" y="58" width="8" height="8" />
     <rect className="box n" x="92" y="36" width="52" height="52" />
@@ -15,7 +15,7 @@ const ruleDiagrams = [
     <text x="92" y="106">Gate</text>
     <text x="204" y="106">Model</text>
     <text x="316" y="106">Guard</text>
-    <text x="446" y="86">Email out</text>
+    <text x="446" y="86">Output</text>
     <path className="sg dash d" d="M342 36 V14 H400" />
     <text className="tg" x="408" y="18">Human</text>
   </>,
@@ -30,20 +30,7 @@ const ruleDiagrams = [
     <text className="t" x="372" y="72">v41 → v42</text>
     <text x="182" y="112">No-op</text>
   </>,
-  // 03 — make the leak a type error
-  <>
-    <rect className="box n" x="6" y="42" width="96" height="40" />
-    <text className="t" x="20" y="66">Context</text>
-    <path className="s d" d="M102 62 H170 V30 H250" />
-    <path className="s d" d="M170 62 V94 H250" />
-    <rect className="box n" x="250" y="14" width="200" height="32" />
-    <rect className="box n" x="250" y="78" width="200" height="32" />
-    <text className="t" x="262" y="34">Decide</text>
-    <text className="t" x="262" y="98">Write</text>
-    <rect className="fg n" x="384" y="24" width="56" height="12" />
-    <text x="352" y="98">— no field</text>
-  </>,
-  // 04 — no quote, no value
+  // 03 — no quote, no value
   <>
     <rect className="box n" x="6" y="12" width="170" height="100" />
     <text x="18" y="32">Source</text>
@@ -61,25 +48,6 @@ const ruleDiagrams = [
     <text x="312" y="100">Value B</text>
     <text x="432" y="100">Dropped</text>
     <text x="190" y="116">No quote</text>
-  </>,
-  // 05 — if it can't be made safe, delete it
-  <>
-    <text x="6" y="30">URL</text>
-    <rect className="solid n" x="6" y="44" width="8" height="8" />
-    <path className="s d" d="M14 48 H110" />
-    <rect className="box n" x="110" y="41" width="14" height="14" />
-    <path className="s d" d="M124 48 H222" />
-    <rect className="box n" x="222" y="41" width="14" height="14" />
-    <path className="sg d" d="M236 48 H334" />
-    <rect className="fg n" x="334" y="34" width="28" height="28" />
-    <text x="92" y="30">Hop · checked</text>
-    <text x="206" y="30">Hop · checked</text>
-    <text className="t" x="374" y="52">Page</text>
-    <path className="s dash d" d="M60 48 V96 H186" />
-    <rect className="box n" x="186" y="82" width="158" height="28" />
-    <text x="198" y="100">Browser fallback</text>
-    <path className="sg d" d="M178 112 L352 80" />
-    <text className="tg" x="364" y="100">Removed</text>
   </>,
 ];
 

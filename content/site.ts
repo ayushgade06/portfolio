@@ -14,7 +14,6 @@ export const links = {
   email: "ayushgade23@gmail.com",
   github: "https://github.com/ayushgade06",
   linkedin: "https://www.linkedin.com/in/ayushgade/",
-  leetcode: "https://leetcode.com/u/ayush_gade/",
   resume: "https://drive.google.com/file/d/18tI9mzD41MlUAsCMoyRbQcwmYLRq_PSj/view?usp=sharing",
 };
 
@@ -24,23 +23,26 @@ export const hero = {
 };
 
 export const statement =
-  "Most of an AI product is not the model. It is the state machine around it, the retries, the guard that stops a wrong number leaving the building, and the queue where a person takes over. That is the part I build.";
+  "Most of an AI product is not the model. It is the state machine around it, the retries, the guard that stops a wrong answer leaving the building, and the queue where a person takes over. That is the part I build.";
 
-export const chain = ["Outreach", "Follow-up", "Read the reply", "Negotiate", "Escalate", "Agree", "Onboard"];
+// Generic on purpose: what the work is made of, not what any employer's product does.
+export const chain = ["State", "Retries", "Guards", "Queues", "Evidence", "A human in the loop"];
 
+// Kept to what is already public on the resume. Nothing about how the product works inside.
 export const experience = {
-  meta: "Founding engineering intern · Jun 2026 → now · remote",
-  aside: "The rules I'd keep.",
-  intro: ["I wrote the first version of the engine under Pluvus's AI agents: ", "a state machine, a queue, a scheduler."],
-  stack: ["TypeScript", "React", "Node", "PostgreSQL", "Redis queues", "Python", "LangGraph"],
+  meta: "Jun 2026 → now · remote",
+  aside: "Founding engineering intern.",
+  intro: "Backend, frontend and AI workflows.",
+  stack: ["TypeScript", "React", "Node.js", "Express", "PostgreSQL", "Python", "LangGraph", "LLMs"],
 };
 
+// How I build, in general terms. Each has a diagram, in the same order, in Diagrams.tsx.
 export const rules = [
   {
     title: "The model is an untrusted advisor",
     body: "Deterministic checks before it and after it.",
-    tag: "Guards · allow-lists",
-    alt: "A reply enters, passes a gate, the model, then a guard, and leaves as an email. The guard can divert it to a human.",
+    tag: "Guards",
+    alt: "An input passes a gate, the model, then a guard, and leaves as an output. The guard can divert it to a human.",
   },
   {
     title: "The lock is an optimisation",
@@ -49,22 +51,10 @@ export const rules = [
     alt: "Two workers race to update one record. Worker A's write moves the version from 41 to 42. Worker B's write matches nothing and is a no-op.",
   },
   {
-    title: "Make the leak a type error",
-    body: "The view that writes has no field for the private limit.",
-    tag: "Typed projections",
-    alt: "One context splits into two views. The decide view carries the private limit. The write view has no such field.",
-  },
-  {
     title: "No quote, no value",
     body: "A value is kept only if its quote is in the source.",
     tag: "Grounded extraction",
     alt: "Two values extracted from a source document. The one whose quote is found in the source is accepted. The one with no quote is dropped.",
-  },
-  {
-    title: "If it can't be made safe, delete it",
-    body: "I removed a fallback I couldn't secure.",
-    tag: "Every redirect hop checked",
-    alt: "A URL is fetched through redirect hops, each one checked. A browser fallback branch is crossed out and marked removed.",
   },
 ];
 
@@ -166,13 +156,17 @@ export const diff = [
 
 export const about = {
   bio: "I write the spec, an AI agent writes much of the code, and the tests keep us both honest.",
-  // Verified numbers, drawn rather than listed.
-  leetcode: { easy: 179, medium: 178, hard: 13, rating: 1661, top: 17 },
-  // public: true = a source anyone can open; false = private or first-person.
   paper: [
-    { k: "PICT Pune", v: "B.Tech IT, 2024–28 · CGPA 9.63", public: false },
-    { k: "Mastercard Code for Change 3.0", v: "Finalist team", public: false },
-    { k: "Outside engineering", v: "TEDxPICT · PICT Finance Society", public: false },
+    { k: "PICT Pune", v: "B.Tech IT, 2024–28 · CGPA 9.63" },
+    { k: "Mastercard Code for Change 3.0", v: "Finalist team" },
+    { k: "Outside engineering", v: "TEDxPICT · PICT Finance Society" },
   ],
-  tools: ["TypeScript", "Python", "React", "Node", "PostgreSQL", "Redis", "C++"],
+  tools: ["TypeScript", "Python", "React", "Node", "PostgreSQL", "C++"],
 };
+
+// The message box posts here (FormSubmit relays it to the inbox). The address is already public on the resume.
+export const inbox = { post: `https://formsubmit.co/${links.email}`, ajax: `https://formsubmit.co/ajax/${links.email}` };
+export const intents = ["A role", "A project", "Open source", "Just hi"];
+
+// About: blocks build these, in a loop. Four letters each.
+export const loop = ["SPEC", "CODE", "TEST", "SHIP"];

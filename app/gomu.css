@@ -1,0 +1,636 @@
+/* ───────── the scroll companion: one drawing, six forms ───────── */
+.gomu {
+  display: contents;
+  --skin: #f5c9a0;
+  --hair: #17171a;
+  --hat: #f1c644;
+  --hat-sh: #d39b26;
+  --band: #d62828;
+  --vest: #d62828;
+  --shorts: #2f5fb3;
+  --sash: #f1c644;
+  --ink: #141110;
+  --arm: var(--skin);
+  --arm-ink: var(--ink);
+  --edge: #eef2f4; /* cut out like a sticker, on every ground */
+  --pupil: var(--ink);
+  --burst: #f1c644;
+}
+.gomu-body {
+  position: fixed;
+  right: max(4px, calc(var(--m) - 18px));
+  bottom: calc(var(--trace-h) + 2px);
+  z-index: 45;
+  width: clamp(60px, 7vw, 104px);
+  pointer-events: none;
+  /* he never stops moving: keep that repaint on a layer of his own */
+  will-change: transform;
+}
+.gomu-pop {
+  transform-origin: 50% 97%;
+}
+.gomu-tag {
+  position: absolute;
+  right: 50%;
+  bottom: 100%;
+  transform: translate(50%, 6px);
+  padding: 3px 7px;
+  background: #0c0c0c;
+  color: #f1c644;
+  font-size: 9.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.3s var(--ease);
+}
+.gomu-tag.on {
+  opacity: 1;
+  transform: translate(50%, -4px);
+}
+.gm {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.gm * {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gm-edge-c {
+  flood-color: var(--edge);
+}
+.gm-all {
+  filter: url(#gm-edge);
+  transform-origin: 60px 145px;
+}
+.gm-shadow {
+  fill: #000;
+  opacity: 0.28;
+}
+.gm .sk,
+.gm .fist {
+  fill: var(--skin);
+  stroke: var(--ink);
+  stroke-width: 1.8;
+}
+.gm .fist {
+  fill: var(--arm);
+  stroke: var(--arm-ink);
+}
+.gm .knk {
+  fill: none;
+  stroke: var(--arm-ink);
+  stroke-width: 1.1;
+}
+.gm .limb,
+.gm .limb-ol {
+  fill: none;
+}
+.gm .limb {
+  stroke: var(--arm);
+  stroke-width: 6.6;
+}
+.gm .limb-ol {
+  stroke: var(--arm-ink);
+  stroke-width: 10.2;
+}
+.gm-legL .limb,
+.gm-legR .limb {
+  stroke: var(--leg, var(--skin));
+}
+.gm-legL .limb-ol,
+.gm-legR .limb-ol {
+  stroke: var(--leg-ink, var(--ink));
+}
+.gm .sandal {
+  fill: #6b4a2b;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+.gm .xscar {
+  fill: none;
+  stroke: #c98463;
+  stroke-width: 1.6;
+}
+.gm .vest,
+.gm .shorts,
+.gm .sash {
+  stroke: var(--ink);
+  stroke-width: 1.8;
+}
+.gm .vest {
+  fill: var(--vest);
+}
+.gm .shorts {
+  fill: var(--shorts);
+}
+.gm .sash {
+  fill: var(--sash);
+}
+.gm .cuff {
+  fill: none;
+  stroke: #eef1f4;
+  stroke-width: 3;
+  stroke-linecap: butt;
+}
+.gm .hair,
+.gm .hair5 {
+  fill: var(--hair);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+}
+.gm .eye {
+  fill: #fff;
+  stroke: var(--ink);
+  stroke-width: 1.7;
+}
+.gm .pupil {
+  fill: var(--pupil);
+  stroke: var(--pupil);
+  stroke-width: 0.6;
+}
+.gm .scar,
+.gm .ln,
+.gm .brows {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.4;
+}
+.gm .brows {
+  stroke-width: 2.4;
+}
+.gm .blush {
+  fill: none;
+  stroke: #ee8f7a;
+  stroke-width: 2.6;
+  opacity: 0.55;
+}
+.gm .teeth {
+  fill: #fff;
+  stroke: var(--ink);
+  stroke-width: 1.7;
+}
+.gm .maw {
+  fill: #7c1d1d;
+  stroke: var(--ink);
+  stroke-width: 1.7;
+}
+.gm .tongue {
+  fill: #ee7d6d;
+}
+.gm .brim,
+.gm .dome {
+  fill: var(--hat);
+  stroke: var(--ink);
+  stroke-width: 1.8;
+}
+.gm .brim {
+  fill: var(--hat-sh);
+}
+.gm .band {
+  fill: var(--band);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+.gm .weave {
+  fill: none;
+  stroke: var(--hat-sh);
+  stroke-width: 1.3;
+}
+.gm .cl-ol circle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3.6;
+}
+.gm .cl-f circle {
+  fill: #fff;
+}
+.gm-steam circle {
+  fill: #fff;
+  opacity: 0;
+}
+.gm .g4-mark {
+  fill: none;
+  stroke: #e0133c;
+  stroke-width: 2.2;
+}
+.gm-aura path {
+  fill: none;
+  stroke: #e0133c;
+  stroke-width: 2;
+  stroke-linejoin: miter;
+}
+
+/* what each form shows */
+.gm-cloud,
+.gm .hair5,
+.gm-shout,
+.gm .brows,
+.gm .g4-mark,
+.gm-aura,
+.gm-steam {
+  display: none;
+}
+.gomu.atk .gm-shout,
+.gomu.atk .gm .brows {
+  display: block;
+}
+.gomu.atk .gm-grin {
+  display: none;
+}
+/* the near arm is drawn across the page while it is stretched */
+.gomu.reach .gm-armN {
+  visibility: hidden;
+}
+
+.gomu[data-form="g2"] {
+  --skin: #f3a58d;
+}
+.gomu[data-form="g2"] .gm-steam,
+.gomu[data-form="g4"] .gm-steam {
+  display: block;
+}
+.gomu[data-form="g3"] .gm-fistN {
+  scale: 3.1;
+}
+.gomu[data-form="g3"] .gm-fistN .fist {
+  stroke-width: 0.62;
+}
+.gomu[data-form="g3"] .gm-fistN .knk {
+  stroke-width: 0.5;
+}
+.gomu[data-form="g3"] .gm-armN .limb {
+  stroke-width: 9;
+}
+.gomu[data-form="g3"] .gm-armN .limb-ol {
+  stroke-width: 12.6;
+}
+.gomu[data-form="g4"] {
+  --burst: #e0133c;
+  --arm: #1d1317;
+  --arm-ink: #e0133c;
+  --leg: #1d1317;
+  --leg-ink: #e0133c;
+}
+.gomu[data-form="g4"] .gm-torso {
+  scale: 1.42 1.16;
+}
+.gomu[data-form="g4"] .gm-armN {
+  translate: -7px -3px;
+}
+.gomu[data-form="g4"] .gm-armF {
+  translate: 7px -3px;
+}
+.gomu[data-form="g4"] .gm-head {
+  translate: 0 -5px;
+}
+.gomu[data-form="g4"] .limb {
+  stroke-width: 8.6;
+}
+.gomu[data-form="g4"] .limb-ol {
+  stroke-width: 12.4;
+}
+.gomu[data-form="g4"] .g4-mark,
+.gomu[data-form="g4"] .gm .brows {
+  display: block;
+}
+.gomu[data-form="haki"] .gm-armN,
+.gomu[data-form="haki"] .gx {
+  --arm: #1d1317;
+  --arm-ink: #e0133c;
+}
+.gomu[data-form="haki"] .gm-aura,
+.gomu[data-form="haki"] .gm .brows {
+  display: block;
+}
+.gomu[data-form="g5"] {
+  --burst: #fff;
+  --skin: #fbe6d4;
+  --hair: #fff;
+  --vest: #fff;
+  --shorts: #f1f2f7;
+  --sash: #5a3f8f;
+  --pupil: #e0133c;
+}
+.gomu[data-form="g5"] .pupil {
+  fill: #fff;
+  stroke-width: 1.5;
+}
+.gomu[data-form="g5"] .gm-cloud,
+.gomu[data-form="g5"] .gm .hair5 {
+  display: block;
+}
+
+/* origins for the parts that turn */
+.gm-head {
+  transform-origin: 60px 92px;
+}
+.gm-torso {
+  transform-origin: 60px 126px;
+}
+.gm-legL {
+  transform-origin: 52px 127px;
+}
+.gm-legR {
+  transform-origin: 68px 127px;
+}
+.gm-armN {
+  transform-origin: 45px 98px;
+}
+.gm-armF {
+  transform-origin: 75px 98px;
+}
+.gm-fistN {
+  transform-origin: 32px 115px;
+}
+.gm-eyes {
+  transform-origin: 60px 70px;
+}
+.gm-hat {
+  transform-origin: 60px 42px;
+}
+.gm-cloud {
+  transform-origin: 60px 95px;
+}
+
+/* things that never stop: breathing, blinking, steam, the cloud, the aura */
+@media (prefers-reduced-motion: no-preference) {
+  .gm-head {
+    animation: gm-bob 2.6s ease-in-out infinite;
+  }
+  .gm-eyes {
+    animation: gm-blink 4.2s infinite;
+  }
+  .gm-steam circle {
+    animation: gm-steam 1.5s ease-out infinite;
+  }
+  .gm-steam circle:nth-child(2) {
+    animation-delay: -0.4s;
+  }
+  .gm-steam circle:nth-child(3) {
+    animation-delay: -0.8s;
+  }
+  .gm-steam circle:nth-child(4) {
+    animation-delay: -1.1s;
+  }
+  .gm-steam circle:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .gomu[data-form="g2"] .gm {
+    animation: gm-jitter 0.18s steps(2) infinite;
+  }
+  .gomu[data-form="g4"] .gm {
+    animation: gm-bounce 0.62s cubic-bezier(0.3, 0, 0.7, 1) infinite alternate;
+    transform-origin: 50% 97%;
+  }
+  .gomu[data-form="g5"] .gm {
+    animation: gm-boing 1.1s ease-in-out infinite;
+    transform-origin: 50% 97%;
+  }
+  .gm-cloud {
+    animation: gm-cloud 2.4s ease-in-out infinite;
+  }
+  .gm-aura path {
+    animation: gm-flicker 0.9s steps(1) infinite;
+  }
+  .gm-aura path:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .gm-aura path:nth-child(3) {
+    animation-delay: -0.55s;
+  }
+  .gm-aura path:nth-child(4) {
+    animation-delay: -0.75s;
+  }
+}
+@keyframes gm-bob {
+  50% {
+    transform: translateY(1.6px) rotate(-1.2deg);
+  }
+}
+@keyframes gm-blink {
+  0%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+  97% {
+    transform: scaleY(0.08);
+  }
+}
+@keyframes gm-steam {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  25% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px) scale(1.5);
+  }
+}
+.gm-steam circle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes gm-jitter {
+  50% {
+    transform: translate(0.8px, -0.8px);
+  }
+}
+@keyframes gm-bounce {
+  0% {
+    transform: translateY(0) scale(1.08, 0.9);
+  }
+  100% {
+    transform: translateY(-13%) scale(0.96, 1.05);
+  }
+}
+@keyframes gm-boing {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.07, 0.92);
+  }
+  60% {
+    transform: scale(0.95, 1.07) translateY(-4%);
+  }
+}
+@keyframes gm-cloud {
+  50% {
+    transform: scale(1.05, 0.96) translateY(-1.5px);
+  }
+}
+@keyframes gm-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.8;
+    transform: translate(1px, -2px);
+  }
+  75% {
+    opacity: 0;
+  }
+}
+
+/* before he arrives (scripts and motion on): waiting under the page */
+@media (prefers-reduced-motion: no-preference) {
+  html.js:not(.ready) .gomu-pop {
+    transform: translateY(150%);
+  }
+}
+
+/* ───────── what he does across the screen: the arm, the hit, the lightning ───────── */
+.gomu-fx {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 46;
+  pointer-events: none;
+  overflow: clip;
+  --fl: #d7e2ea;
+}
+.gomu-fx[data-theme="light"],
+.gomu-fx[data-theme="signal"] {
+  --fl: #0c0c0c;
+}
+.gomu-fx.live {
+  display: block;
+}
+.gx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.gx * {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gx-reach {
+  visibility: hidden;
+}
+.gomu-fx.on .gx-reach {
+  visibility: visible;
+}
+.gx-arm,
+.gx-fist path {
+  fill: var(--arm);
+  stroke: var(--arm-ink);
+  stroke-width: 2px;
+}
+.gx-fist path {
+  stroke-width: inherit;
+  vector-effect: non-scaling-stroke;
+}
+.gx-fist .ln {
+  fill: none;
+}
+.gx-ghost {
+  fill: var(--arm);
+  opacity: 0.3;
+}
+.gx-ghost + .gx-ghost {
+  opacity: 0.18;
+}
+.gx-ghost + .gx-ghost + .gx-ghost {
+  opacity: 0.09;
+}
+.gx-mail {
+  visibility: hidden;
+}
+.gx-mail.on {
+  visibility: visible;
+}
+.gx-mail rect {
+  fill: #fff;
+  stroke: var(--ink);
+  stroke-width: 2px;
+}
+.gx-mail .ln {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2px;
+}
+.gx-burst polygon,
+.gx-star {
+  fill: var(--burst);
+  stroke: var(--ink);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+.gx-star {
+  opacity: 1;
+  transform: scale(0);
+}
+.gx-ring circle {
+  fill: none;
+  stroke: var(--fl);
+  stroke-width: 5px;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+.gx-bolt-g,
+.gx-bolt-c {
+  fill: none;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+}
+.gx-bolt-g {
+  stroke: #e0133c;
+  stroke-width: 9px;
+}
+.gx-bolt-c {
+  stroke: #0c0c0c;
+  stroke-width: 3.5px;
+}
+.gx-focus {
+  fill: var(--fl);
+  opacity: 0;
+}
+/* one inverted frame, the way a hit lands in animation */
+.gx-flash {
+  display: none;
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: invert(1) grayscale(1) contrast(1.5);
+  backdrop-filter: invert(1) grayscale(1) contrast(1.5);
+}
+.gx-flash.on {
+  display: block;
+}
+.gx-sfx {
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: grid;
+  place-items: center;
+}
+.gx-sfx b {
+  display: block;
+  opacity: 0;
+  white-space: nowrap;
+  font-size: clamp(46px, 8.5vw, 132px);
+  line-height: 1;
+  font-style: italic;
+  font-variation-settings: "wdth" 75, "wght" 900;
+  letter-spacing: -0.01em;
+  color: var(--burst);
+  -webkit-text-stroke: 0.07em #141110;
+  paint-order: stroke fill;
+  text-shadow: 0.06em 0.06em 0 #141110;
+}
