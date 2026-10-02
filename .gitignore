@@ -1,0 +1,15 @@
+# private — never publish
+research/
+references/
+DESIGN_PROPOSAL.md
+design.md
+.scratch/
+
+# build
+node_modules/
+.next/
+out/
+.env*
+*.log
+next-env.d.ts
+*.tsbuildinfo

@@ -1,0 +1,58 @@
+[
+  {
+    "number": 8164,
+    "state": "merged",
+    "date": "2026-10-01",
+    "url": "https://github.com/layer5io/layer5/pull/8164",
+    "additions": 14,
+    "deletions": 15
+  },
+  {
+    "number": 8132,
+    "state": "merged",
+    "date": "2026-09-26",
+    "url": "https://github.com/layer5io/layer5/pull/8132",
+    "additions": 9,
+    "deletions": 2
+  },
+  {
+    "number": 8140,
+    "state": "merged",
+    "date": "2026-09-27",
+    "url": "https://github.com/layer5io/layer5/pull/8140",
+    "additions": 0,
+    "deletions": 1
+  },
+  {
+    "number": 8148,
+    "state": "merged",
+    "date": "2026-09-29",
+    "url": "https://github.com/layer5io/layer5/pull/8148",
+    "additions": 3,
+    "deletions": 3
+  },
+  {
+    "number": 8150,
+    "state": "open",
+    "date": "2026-09-27",
+    "url": "https://github.com/layer5io/layer5/pull/8150",
+    "additions": 29,
+    "deletions": 84
+  },
+  {
+    "number": 8163,
+    "state": "open",
+    "date": "2026-10-01",
+    "url": "https://github.com/layer5io/layer5/pull/8163",
+    "additions": 3,
+    "deletions": 3
+  },
+  {
+    "number": 8162,
+    "state": "open",
+    "date": "2026-09-30",
+    "url": "https://github.com/layer5io/layer5/pull/8162",
+    "additions": 1,
+    "deletions": 0
+  }
+]
