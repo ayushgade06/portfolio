@@ -33,10 +33,11 @@ npm run shots      # screenshots at four viewports into .scratch/shots (after a 
 | `components/Trace.tsx`, `lib/trace.ts` | the visit log |
 | `components/Field.tsx` | the shader |
 | `components/Live.tsx` | the live pieces: clock, listener counter, run summary |
+| `components/Cursor.tsx` | the pointer character and its moods |
 
 ## Known gaps
 
-- The cursor-following label and the letter response need a fine pointer; phones get neither.
+- The avatar cursor (a small character with a blob behind it) and the letter response need a fine pointer; phones get neither.
 - The halftone shader runs on desktop only; phones and reduced-motion get static dots.
 - First-load JavaScript is about 196 kB gzipped, over the 170 kB the design aimed for.
 - No automated tests beyond type-checking and the screenshot script.

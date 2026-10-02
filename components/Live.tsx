@@ -96,7 +96,7 @@ export function Meter() {
         </div>
       </div>
       <p className="mono" style={{ marginTop: 10 }}>
-        {live ? "Counted since you arrived here, each state change rendered as it happens. Keep scrolling." : "From the test harness in the pull request"}
+        {live ? "Counting since you arrived · each flip rendered as it happens · scroll" : "From the test harness in the pull request"}
       </p>
     </div>
   );
@@ -108,7 +108,7 @@ export function CopyEmail() {
   return (
     <button
       type="button"
-      data-cursor="Copy"
+      data-cursor="copy"
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(links.email);

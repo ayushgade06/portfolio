@@ -2,8 +2,6 @@
 // Classes: s = line, sg = the path taken (signal), dash = optional/rejected, box / solid / fg = nodes.
 // "d" marks strokes that draw in; "n" marks nodes that land after them.
 
-const ink = { fill: "#0c0c0c" };
-
 const ruleDiagrams = [
   // 01 — the model is an untrusted advisor
   <>
@@ -94,71 +92,68 @@ export function RuleDiagram({ i, alt }: { i: number; alt: string }) {
 }
 
 const plates: Record<string, { alt: string; body: React.ReactNode }> = {
-  negotiation: {
-    alt: "A message is classified by six model calls. A rules gate, not the model, chooses approve, counter-offer or human review. Every run writes an audit record.",
+  staysphere: {
+    alt: "A browser request passes the routes, then three middleware checks in order, then a controller that talks to MongoDB and to image storage, and comes back as a server-rendered page.",
     body: (
       <>
-        <text className="t" x="24" y="186">Message</text>
+        <text className="t" x="24" y="186">Browser</text>
         <rect className="solid n" x="24" y="196" width="8" height="8" />
-        <path className="s d" d="M32 200 H110" />
-        <text x="110" y="92">Six model calls classify</text>
-        <path className="s d" d="M110 127 V277" />
-        {["Intent", "Stage", "Risk", "Enthusiasm"].map((l, k) => (
+        <path className="sg d" d="M32 200 H120" />
+        <rect className="box n" x="120" y="183" width="110" height="34" />
+        <text className="t" x="134" y="204">Routes</text>
+        <path className="sg d" d="M230 200 H530" />
+        <text x="286" y="160">Middleware, in order</text>
+        {["Logged in", "Valid", "Owner"].map((l, k) => (
           <g key={l}>
-            <rect className="box n" x="110" y={110 + k * 50} width="150" height="34" />
-            <text className="t" x="124" y={131 + k * 50}>{l}</text>
-            <path className="s d" d={`M260 ${127 + k * 50} H296`} />
+            <rect className="box n" x={290 + k * 84} y="178" width="14" height="44" />
+            <text x={270 + k * 84} y="246">{l}</text>
           </g>
         ))}
-        <path className="s d" d="M296 127 V277" />
-        <path className="s d" d="M296 200 H384" />
-        <text className="tg" x="384" y="146">The model never decides</text>
-        <rect className="fg n" x="384" y="160" width="112" height="80" />
-        <text style={ink} x="400" y="196">Rules</text>
-        <text style={ink} x="400" y="214">84 lines</text>
-        <path className="s d" d="M496 180 H566 V112 H634" />
-        <path className="s d" d="M496 200 H634" />
-        <path className="sg dash d" d="M496 220 H566 V288 H634" />
-        <rect className="box n" x="634" y="108" width="8" height="8" />
-        <rect className="box n" x="634" y="196" width="8" height="8" />
-        <rect className="fg n" x="634" y="284" width="8" height="8" />
-        <text className="t" x="656" y="116">Approve</text>
-        <text className="t" x="656" y="204">Counter-offer</text>
-        <text className="tg" x="656" y="292">Human review</text>
-        <text x="656" y="310">Fixed template, not generated</text>
-        <path className="s dash d" d="M440 240 V344 H634" />
-        <rect className="box n" x="634" y="340" width="8" height="8" />
-        <text className="t" x="656" y="348">Audit record</text>
-        <text x="656" y="366">Append-only, one per run</text>
+        <rect className="box n" x="530" y="183" width="120" height="34" />
+        <text className="t" x="544" y="204">Controller</text>
+        <path className="s d" d="M650 200 H700 V112 H740" />
+        <path className="s d" d="M700 200 V288 H740" />
+        <rect className="box n" x="740" y="95" width="136" height="34" />
+        <text className="t" x="754" y="116">Image store</text>
+        <rect className="box n" x="740" y="271" width="136" height="34" />
+        <text className="t" x="754" y="292">MongoDB</text>
+        <text x="740" y="324">Listing · reviews · map point</text>
+        <path className="s dash d" d="M590 217 V344 H28 V210" />
+        <text x="250" y="336">Server-rendered page</text>
       </>
     ),
   },
-  axiom: {
-    alt: "A pipeline from ingest to proposal, then six pre-trade checks in series. A proposal is stopped at the size-cap check. Nothing reaches the paper broker.",
+  rtcmeet: {
+    alt: "Four peers. Offers, answers and ICE candidates go through a relay server; media then flows directly between every pair of peers. ICE candidates are queued until the remote description is set.",
     body: (
       <>
-        {["Ingest", "Store", "Features", "Strategy", "Proposal"].map((l, k) => (
-          <g key={l}>
-            <rect className="box n" x={40 + k * 164} y="78" width="124" height="34" />
-            <text className="t" x={54 + k * 164} y="99">{l}</text>
-            {k < 4 && <path className="s d" d={`M${164 + k * 164} 95 H${204 + k * 164}`} />}
+        <path className="sg d" d="M340 107 H560" />
+        <path className="sg d" d="M605 124 V276" />
+        <path className="sg d" d="M560 293 H340" />
+        <path className="sg d" d="M295 276 V124" />
+        <path className="sg d" d="M340 124 L560 276" />
+        <path className="sg d" d="M560 124 L340 276" />
+        {[["Peer A", 250, 90], ["Peer B", 560, 90], ["Peer C", 560, 276], ["Peer D", 250, 276]].map(([l, x, y]) => (
+          <g key={l as string}>
+            <path className="s dash d" d={`M${(x as number) + 45} ${(y as number) + 17} L450 200`} />
+            <rect className="box n" x={x as number} y={y as number} width="90" height="34" />
+            <text className="t" x={(x as number) + 14} y={(y as number) + 21}>{l}</text>
           </g>
         ))}
-        <path className="s d" d="M758 112 V166 H60 V236" />
-        <rect className="solid n" x="56" y="232" width="8" height="8" />
-        <path className="sg d" d="M64 236 H466" />
-        <path className="s dash d" d="M480 236 H770" />
-        {["Kill switch", "Stale data", "Duplicate", "Size cap", "Position cap", "Exposure cap"].map((l, k) => (
-          <g key={l}>
-            <rect className={k === 3 ? "fg n" : "box n"} x={136 + k * 110} y="214" width="14" height="44" />
-            <text className={k === 3 ? "tg" : undefined} x={112 + k * 110} y="282">{l}</text>
-          </g>
+        <rect className="box n" x="385" y="180" width="130" height="40" />
+        <text className="t" x="399" y="204">Relay server</text>
+        <text x="24" y="150">ICE queue</text>
+        {[0, 1, 2, 3].map((k) => (
+          <rect key={k} className="box n" x={24 + k * 14} y="162" width="8" height="8" />
         ))}
-        <text className="tg" x="430" y="200">Reject · typed reason</text>
-        <rect className="box n" x="770" y="219" width="110" height="34" />
-        <text x="782" y="240">Paper broker</text>
-        <text className="t" x="56" y="340">639 tests</text>
-        <text x="56" y="358">0 of 6 market regimes survive fees</text>
+        <path className="sg d" d="M84 166 H132" />
+        <rect className="fg n" x="132" y="162" width="8" height="8" />
+        <text x="24" y="194">Held until the remote</text>
+        <text x="24" y="210">description is set</text>
+        <path className="s dash d" d="M700 60 H740" />
+        <text x="752" y="64">Signal · via relay</text>
+        <path className="sg d" d="M700 84 H740" />
+        <text className="tg" x="752" y="88">Media · direct</text>
       </>
     ),
   },
@@ -227,6 +222,7 @@ const plates: Record<string, { alt: string; body: React.ReactNode }> = {
         <text className="t" x="492" y="139">Detection</text>
         <path className="sg d" d="M594 135 H752" />
         <circle className="s dash d" cx="760" cy="135" r="96" />
+        <line className="sg sweep" x1="760" y1="135" x2="760" y2="39" />
         <rect className="fg n" x="752" y="127" width="16" height="16" />
         <rect className="fg n" x="716" y="84" width="8" height="8" />
         <rect className="fg n" x="800" y="170" width="8" height="8" />

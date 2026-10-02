@@ -11,4 +11,9 @@ export function scrollToId(id: string) {
   else el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 }
 
-export const lock = (on: boolean) => (on ? scroll.lenis?.stop() : scroll.lenis?.start());
+// A dialog is open: stop the page scrolling, and hand the pointer back to the system cursor.
+export const lock = (on: boolean) => {
+  document.documentElement.classList.toggle("modal", on);
+  if (on) scroll.lenis?.stop();
+  else scroll.lenis?.start();
+};

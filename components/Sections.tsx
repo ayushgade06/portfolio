@@ -6,13 +6,48 @@ import { CopyEmail, Meter, PuneTime, RunFacts, RunSummary } from "./Live";
 const num = (i: number) => String(i + 1).padStart(2, "0");
 const day = (iso: string) => new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
 const ext = { target: "_blank", rel: "noreferrer" } as const;
-const SQL = "WHERE state = expected";
+const css = (v: Record<string, string | number>) => v as React.CSSProperties;
 
 function Label({ left, right }: { left: string; right: string }) {
   return (
     <div className="label mono">
       <span>{left}</span>
       <span>{right}</span>
+    </div>
+  );
+}
+
+// Text that rolls over on hover: the copy underneath comes up to replace it.
+function Roll({ children }: { children: string }) {
+  return (
+    <span className="roll-clip">
+      <span className="roll" data-text={children}>
+        {children}
+      </span>
+    </span>
+  );
+}
+
+// A strip that keeps moving; Motion.tsx drives it and lets scroll speed push it along.
+function Marquee({ items, className = "" }: { items: string[]; className?: string }) {
+  const run = (hidden: boolean) => (
+    <div className="marquee-run" aria-hidden={hidden || undefined}>
+      {items.map((t) => (
+        <span key={t} className="marquee-item">
+          {t}
+          <i className="sq" aria-hidden="true" />
+        </span>
+      ))}
+    </div>
+  );
+  return (
+    <div className={`marquee ${className}`} data-marquee>
+      <div className="marquee-track">
+        {run(false)}
+        {run(true)}
+        {run(true)}
+        {run(true)}
+      </div>
     </div>
   );
 }
@@ -34,6 +69,12 @@ export function Hero() {
             </span>
           ))}
         </h1>
+        {/* three nodes in orbit around the name; they pass behind it on the far side */}
+        <div className="orbit" aria-hidden="true" data-orbit>
+          <i />
+          <i />
+          <i className="sig" />
+        </div>
       </div>
       <div className="hero-foot">
         <div>
@@ -49,8 +90,20 @@ export function Hero() {
             <i />
             Pune · <PuneTime /> IST
           </span>
-          <a className="pill" href="#contact" data-in data-magnetic>
-            Get in touch
+          <a className="badge" href="#contact" data-in data-magnetic aria-label="Get in touch">
+            <svg viewBox="0 0 120 120" aria-hidden="true" data-spin>
+              <defs>
+                <path id="ring" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0" />
+              </defs>
+              <text>
+                <textPath href="#ring" textLength="286">
+                  GET IN TOUCH · GET IN TOUCH ·
+                </textPath>
+              </text>
+            </svg>
+            <span className="badge-core" aria-hidden="true">
+              ↘
+            </span>
           </a>
         </div>
       </div>
@@ -88,7 +141,7 @@ export function Experience() {
     <section id="experience" className="sec" data-theme="light" data-state="EXPERIENCE">
       <Label left="01 — Experience" right={experience.meta} />
       <div className="head">
-        <h2 className="display clipx" data-lock style={{ "--n": 6 } as React.CSSProperties}>
+        <h2 className="display clipx" data-lock style={css({ "--n": 6 })}>
           Pluvus
         </h2>
         <div>
@@ -98,28 +151,25 @@ export function Experience() {
           <p className="body" data-reveal>
             {experience.intro[0]}
             <b>{experience.intro[1]}</b>
-            {experience.intro[2]}
           </p>
         </div>
       </div>
       <ol className="rows">
         {rules.map((r, i) => (
-          <li className="rule" key={r.title} data-item={`Rule ${num(i)}`}>
-            <div className="numeral" data-num aria-hidden="true">
-              {num(i)}
+          <li className="rule" key={r.title} data-item={`Rule ${num(i)}`} data-come={i % 2 ? "right" : "left"}>
+            <div className="numeral" aria-hidden="true">
+              <span data-roll>{num(i)}</span>
             </div>
             <div>
               <h3 className="title">{r.title}</h3>
-              <p className="body">
-                {r.body.split(SQL).flatMap((t, k) => (k ? [<code key={k}>{SQL}</code>, t] : [t]))}
-              </p>
+              <p className="body">{r.body}</p>
               <p className="mono src private">{r.tag}</p>
             </div>
             <RuleDiagram i={i} alt={r.alt} />
           </li>
         ))}
       </ol>
-      <p className="mono stackline">{experience.stack}</p>
+      <Marquee items={experience.stack} className="marquee-sm" />
     </section>
   );
 }
@@ -128,19 +178,14 @@ export function Experience() {
 export function Work() {
   return (
     <section id="work" className="sec" data-theme="dark" data-state="WORK">
-      <Label left="02 — Work" right={`${projects.length} selected · ${indexRows.length} more in the index`} />
+      <Label left="02 — Work" right={`${projects.length} builds · ${indexRows.length} more in the index`} />
       <div className="head">
-        <h2 className="display clipx" data-lock style={{ "--n": 4 } as React.CSSProperties}>
+        <h2 className="display clipx" data-lock style={css({ "--n": 4 })}>
           Work
         </h2>
-        <div>
-          <p className="aside" data-reveal>
-            Each one lists what it doesn&rsquo;t do yet.
-          </p>
-          <p className="caption" data-reveal>
-            Built outside the day job. Sorted by how much of the thinking is mine.
-          </p>
-        </div>
+        <p className="aside" data-reveal>
+          Four builds. Each lists its gaps.
+        </p>
       </div>
 
       <div className="sheets" data-sheets>
@@ -154,43 +199,27 @@ export function Work() {
             </div>
             <div className="sheet-in">
               <header className="sheet-hd">
-                <div className="numeral" data-num aria-hidden="true">
-                  {num(i)}
+                <div className="numeral" aria-hidden="true">
+                  <span data-roll>{num(i)}</span>
                 </div>
-                <div className="sheet-meta mono">
-                  {p.meta.map((m) => (
-                    <span key={m}>{m}</span>
-                  ))}
-                </div>
+                <div className="sheet-meta mono">{p.meta}</div>
                 <h3
                   className="display sheet-name"
-                  style={{ "--n": p.name.length, "--w": Math.max(...p.name.split(" ").map((w) => w.length)) } as React.CSSProperties}
+                  style={css({ "--n": p.name.length, "--w": Math.max(...p.name.split(" ").map((w) => w.length)) })}
                 >
                   {p.name}
                 </h3>
                 <div className="sheet-pills">
-                  {p.pills.map((pl) =>
-                    pl.href ? (
-                      <a className="pill" href={pl.href} {...ext} key={pl.label} data-cursor="Src ↗" data-src={`${p.name} · source`}>
-                        {pl.label} ↗
-                      </a>
-                    ) : (
-                      <span className="pill q" key={pl.label}>
-                        {pl.label}
-                      </span>
-                    ),
-                  )}
+                  {p.pills.map((pl) => (
+                    <a className="pill" href={pl.href} {...ext} key={pl.label} data-cursor="src" data-src={`${p.name} · ${pl.label.toLowerCase()}`}>
+                      <Roll>{`${pl.label} ↗`}</Roll>
+                    </a>
+                  ))}
                 </div>
               </header>
               <div className="sheet-bd">
                 <div>
-                  <h4 className="mono">What it is</h4>
-                  <p className="body">
-                    {p.what[0]}
-                    <b>{p.what[1]}</b>
-                  </p>
-                  <h4 className="mono">The part worth reading</h4>
-                  <p className="body">{p.part}</p>
+                  <p className="lead">{p.what}</p>
                   <div className="gaps">
                     <h4 className="mono">Known gaps</h4>
                     <ul>
@@ -205,9 +234,6 @@ export function Work() {
                     Fig. {num(i)} — {p.fig}
                   </figcaption>
                   <Plate k={p.key} />
-                  <span className="cap2 mono" aria-hidden="true">
-                    Drawn from the code
-                  </span>
                 </figure>
               </div>
             </div>
@@ -217,10 +243,10 @@ export function Work() {
 
       <div className="index-hd">
         <h3 className="title">Index</h3>
-        <p className="mono">Everything else that is mine, with where it came from</p>
+        <p className="mono">Everything else, with where it came from</p>
       </div>
       <ul className="rows">
-        {indexRows.map((r) => {
+        {indexRows.map((r, i) => {
           const row = (
             <>
               <span className="mono">{r.year}</span>
@@ -231,9 +257,9 @@ export function Work() {
             </>
           );
           return (
-            <li key={r.name}>
+            <li key={r.name} data-come={i % 2 ? "right" : "left"}>
               {r.href ? (
-                <a className="irow" href={r.href} {...ext} data-cursor="Src ↗" data-src={`${r.name} · repo`}>
+                <a className="irow" href={r.href} {...ext} data-cursor="src" data-src={`${r.name} · repo`}>
                   {row}
                 </a>
               ) : (
@@ -254,35 +280,26 @@ export function Upstream() {
     <section id="upstream" className="sec" data-theme="dark" data-state="OPEN SOURCE">
       <Label left="03 — Open source" right={`Layer5 · ${upstream.merged} merged · ${upstream.open} in review`} />
       <div className="head">
-        <h2 className="display clipx" data-lock style={{ "--n": 8 } as React.CSSProperties}>
+        <h2 className="display clipx" data-lock style={css({ "--n": 8 })}>
           Upstream
         </h2>
         <div>
           <p className="aside" data-reveal>
-            The demo below is running on this page&rsquo;s scroll.
+            This demo runs on your scroll.
           </p>
           <p className="body" data-reveal>
-            A scroll hook on layer5.io kept its throttle flag in React state, and in its effect&rsquo;s dependency list. Each
-            time a render lands between the flag&rsquo;s two flips, the listener is torn down and attached again. Both versions
-            are mounted here. Scroll, and watch the left number.
+            A scroll hook that kept re-attaching its own listener. Both versions are mounted here.
           </p>
         </div>
       </div>
       <div className="fix" data-item="PR #8164">
         <div>
-          <a className="mono src" href={f.url} {...ext} data-cursor="Src ↗" data-src="PR #8164">
-            PR #{f.number} · merged {day(f.date)} 2026 · +{f.additions} −{f.deletions}
+          <a className="mono src" href={f.url} {...ext} data-cursor="src" data-src="PR #8164">
+            PR #{f.number} · merged {day(f.date)} · +{f.additions} −{f.deletions}
           </a>
-          <h3 className="title">A throttle flag that lived in state</h3>
-          <p className="body">
-            The flag flips twice a frame and nothing on screen reads it, so it never needed to be state. Moving it into a
-            local variable is the whole fix: one listener, attached once.
-          </p>
+          <h3 className="title">The flag never needed to be state</h3>
           <Meter />
-          <p className="mono" style={{ marginTop: 8, textTransform: "none", letterSpacing: "0.02em" }}>
-            Under React&rsquo;s batched rendering the two flips often land in one batch and the churn hides. The fix does not
-            depend on that.
-          </p>
+          <p className="mono note">Batched rendering usually hides the churn. The fix does not rely on that.</p>
         </div>
         <pre className="diff" aria-label="The change, as merged" tabIndex={0}>
           {diff.map((l, i) => (
@@ -293,9 +310,9 @@ export function Upstream() {
         </pre>
       </div>
       <ul className="ledger rows">
-        {upstream.ledger.map((p) => (
-          <li key={p.number}>
-            <a href={p.url} {...ext} data-cursor="Src ↗" data-src={`PR #${p.number}`}>
+        {upstream.ledger.map((p, i) => (
+          <li key={p.number} data-come={i % 2 ? "right" : "left"}>
+            <a href={p.url} {...ext} data-cursor="src" data-src={`PR #${p.number}`}>
               <span className="mono">#{p.number}</span>
               <span>{p.text}</span>
               <span className="mono when">{day(p.date)}</span>
@@ -310,69 +327,84 @@ export function Upstream() {
 
 /* ───────── 04 ABOUT ───────── */
 export function About() {
+  const lc = about.leetcode;
+  const total = lc.easy + lc.medium + lc.hard;
+  const bars: [string, number][] = [
+    ["Easy", lc.easy],
+    ["Medium", lc.medium],
+    ["Hard", lc.hard],
+  ];
   return (
-    <section id="about" className="sec" data-theme="light" data-state="ABOUT">
+    <section id="about" className="sec about" data-theme="light" data-state="ABOUT">
       <Label left="04 — About" right="Pune, India · UTC+5:30" />
       <div className="head">
-        <h2 className="display clipx" data-lock style={{ "--n": 5 } as React.CSSProperties}>
+        <h2 className="display clipx" data-lock style={css({ "--n": 5 })}>
           About
         </h2>
         <p className="aside" data-reveal>
-          The short version, with sources.
+          {about.bio}
         </p>
       </div>
       <div className="about-grid">
-        <div className="bio body">
-          {about.bio.map((p) => (
-            <p key={p} data-reveal>
-              {p}
-            </p>
-          ))}
-        </div>
-        <div>
-          <h3 className="mono" style={{ paddingBottom: 10 }}>
-            On paper
-          </h3>
-          <ul className="paper">
-            {about.paper.map((r) => (
-              <li key={r.k}>
-                {r.href ? (
-                  <a className="mono src" href={r.href} {...ext} data-cursor="Src ↗" data-src={r.k}>
-                    {r.k} ↗
-                  </a>
-                ) : (
-                  <span className={`mono src${r.public ? "" : " private"}`}>{r.k}</span>
-                )}
-                <span className="v">{r.v}</span>
+        {/* verified numbers, drawn instead of listed */}
+        <figure className="lc" data-item="LeetCode">
+          <a className="mono src" href={links.leetcode} {...ext} data-cursor="src" data-src="LeetCode">
+            LeetCode ↗
+          </a>
+          <div className="lc-row">
+            <div>
+              <b className="numeral">
+                <span data-roll>{total}</span>
+              </b>
+              <span className="mono">Solved · C++</span>
+            </div>
+            <div>
+              <b className="numeral">
+                <span data-roll>{lc.rating}</span>
+              </b>
+              <span className="mono">Contest rating · top {lc.top}%</span>
+            </div>
+            <svg className="dg dial" viewBox="0 0 120 120" role="img" aria-label={`Top ${lc.top} percent of rated contestants`} data-dial={100 - lc.top}>
+              <circle className="s" cx="60" cy="60" r="46" />
+              <circle className="sg arc" cx="60" cy="60" r="46" transform="rotate(-90 60 60)" />
+              <line className="sg needle" x1="60" y1="60" x2="60" y2="22" />
+              <rect className="fg" x="56" y="56" width="8" height="8" />
+            </svg>
+          </div>
+          <ul className="bars-lc">
+            {bars.map(([k, v]) => (
+              <li key={k}>
+                <span className="mono">{k}</span>
+                <i style={css({ "--v": v / Math.max(lc.easy, lc.medium) })} data-bar />
+                <span className="mono">{v}</span>
               </li>
             ))}
           </ul>
-          <div className="minor">
-            <div>
-              <h3 className="mono">Currently</h3>
-              {about.currently.map((c) => (
-                <p className="body" key={c}>
-                  {c}
-                </p>
-              ))}
-            </div>
-            <div>
-              <h3 className="mono">Tools</h3>
-              <p className="body">{about.tools}</p>
-            </div>
-          </div>
-          <p className="mono legend">
-            <span className="src">A filled square opens a public source.</span>
-            <span className="src private">A hollow one is private work, described.</span>
-          </p>
-        </div>
+        </figure>
+        <ul className="paper rows">
+          {about.paper.map((r, i) => (
+            <li key={r.k} data-come={i % 2 ? "right" : "left"}>
+              <span className={`mono src${r.public ? "" : " private"}`}>{r.k}</span>
+              <span className="v">{r.v}</span>
+            </li>
+          ))}
+        </ul>
       </div>
+      <Marquee items={about.tools} className="marquee-lg" />
     </section>
   );
 }
 
 /* ───────── 05 CONTACT ───────── */
 export function Contact() {
+  const row = (label: string, value: string, href: string) => (
+    <li>
+      <a href={href} {...ext} data-src={label} data-cursor="src">
+        <span>{label}</span>
+        <span>{value} ↗</span>
+      </a>
+    </li>
+  );
   return (
     <section id="contact" className="sec contact" data-theme="signal" data-state="CONTACT">
       <Label left="05 — Contact" right="Run complete" />
@@ -386,30 +418,10 @@ export function Contact() {
           <li>
             <CopyEmail />
           </li>
-          <li>
-            <a href={links.github} {...ext} data-src="GitHub">
-              <span>GitHub</span>
-              <span>ayushgade06 ↗</span>
-            </a>
-          </li>
-          <li>
-            <a href={links.linkedin} {...ext} data-src="LinkedIn">
-              <span>LinkedIn</span>
-              <span>ayushgade ↗</span>
-            </a>
-          </li>
-          <li>
-            <a href={links.leetcode} {...ext} data-src="LeetCode">
-              <span>LeetCode</span>
-              <span>ayush_gade ↗</span>
-            </a>
-          </li>
-          <li>
-            <a href={links.resume} {...ext} data-src="Résumé">
-              <span>Résumé</span>
-              <span>PDF ↗</span>
-            </a>
-          </li>
+          {row("GitHub", "ayushgade06", links.github)}
+          {row("LinkedIn", "ayushgade", links.linkedin)}
+          {row("LeetCode", "ayush_gade", links.leetcode)}
+          {row("Résumé", "PDF", links.resume)}
         </ul>
         <RunFacts />
       </div>
